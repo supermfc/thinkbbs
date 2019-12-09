@@ -49,7 +49,7 @@ abstract class Base
             $categories = CategoryModel::order('id', 'ASC')->select();
             View::assign('categories', $categories);
         }
-
+        return;
         // 当前登录用户
         $current_user = UserModel::currentUser();
         if (!empty($current_user)) {

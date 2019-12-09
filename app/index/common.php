@@ -27,14 +27,18 @@ function asset_path(string $file_path): string
     try {
         // 项目根目录
         $root_path = app()->getRootPath();
+
         // 资源文件全路径
         $full_path = $root_path.'public/'.$file_path;
         $info = new \SplFileInfo($full_path);
+        
+        //取得文件最后修改日期
         $file_time = $info->getCTime();
+
     } catch (\Exception $e) {
         $file_time = time();
     }
-    return $file_path.'?c='.$file_time;
+    return '/ThinkBBS/public/'.$file_path.'?c='.$file_time;
 }
 
 /**
