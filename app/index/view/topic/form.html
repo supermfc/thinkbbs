@@ -1,0 +1,97 @@
+{extend name="layout/main" /}
+{block name="styles"}
+{css href="/static/assets/plugins/simditor/css/simditor.css" /}
+{/block}
+{block name="content"}
+<div class="container">
+  <div class="col-md-10 offset-md-1">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="">
+          <i class="far fa-edit"></i>
+          {if (isset($topic['id']))}
+          编辑话题
+          {else /}
+          新建话题
+          {/if}
+        </h2>
+        <hr>
+        {if (isset($topic['id']))}
+        <form id="model-form" class="needs-validation" novalidate action="{:url('[topic.update]', ['id' => $topic->id])}" method="POST" accept-charset="UTF-8">
+          <input type="hidden" name="_method" value="PUT">
+        {else /}
+        <form id="model-form" class="needs-validation" novalidate action="{:url('[topic.save]')}" method="POST" accept-charset="UTF-8">
+        {/if}
+          <div class="form-group">
+            <input class="form-control" type="text" name="title" id="title-field" value="{$topic['title']|default=''}" placeholder="请填写标题" required/>
+          </div>
+          <div class="form-group">
+            <select class="form-control" name="category_id" required>
+              <option value="" hidden disabled selected <?php if (!isset($topic['id'])) { echo('selected'); } ?>>请选择分类</option>
+              {volist name='categories' id='category'}
+              <option value="{$category->id}" <?php if (isset($topic['category_id']) && $topic['category_id']==$category->id) { echo('selected'); } ?>>
+                {$category->name}
+              </option>
+              {/volist}
+            </select>
+          </div>
+          <div class="form-group">
+            <textarea name="body" id="body-field" class="form-control" rows="3">{$topic['body']|default=''}</textarea>
+          </div>
+          <div class="well well-sm">
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{/block}
+{block name="scripts"}
+{js href="/static/assets/plugins/jquery-validate/jquery.validate.min.js" /}
+{js href="/static/assets/plugins/jquery-validate/bootstrap.validate.js" /}
+{js href="/static/assets/plugins/simditor/js/module.js" /}
+{js href="/static/assets/plugins/simditor/js/hotkeys.js" /}
+{js href="/static/assets/plugins/simditor/js/uploader.js" /}
+{js href="/static/assets/plugins/simditor/js/simditor.js" /}
+<script type="text/javascript">
+  jQuery(function($){
+    var editor = new Simditor({
+      textarea: $('#body-field'),
+      upload: {
+        url: "{:url('[upload.simditor]')}",
+        fileKey: 'upfile',
+        connectionCount: 3,
+        leaveConfirm: '文件上传中，关闭此页面将取消上传。'
+      },
+      pasteImage: true,
+    });
+    validAndSubmitForm(
+      "form#model-form",
+      {
+        "title":{
+          required: true,
+          rangelength: [3, 50]
+        }, "category_id":{
+          required: true,
+          min: 1
+        }, "body":{
+          required: true,
+          minlength: 3
+        }
+      }, {
+        "title":{
+          required: "标题不能为空",
+          rangelength: "标题长度必须在3-50个字符之间"
+        }, "category_id":{
+          required: "分类不能为空",
+          min: "分类不能为空"
+        }, "body":{
+          required: "正文不能为空",
+          minlength: "正文至少包含3个字符"
+        }
+      }
+      );
+  });
+</script>
+{/block}
