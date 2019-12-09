@@ -44,7 +44,9 @@ class Register extends Base
 
         try {
             // 保存表单提交数据
-            $user->save($this->request->post());
+            $param = $this->request->post();
+            $user = User::register($param);
+            //$user->save($this->request->post());
         } catch (\Exception $e) {
             return $this->error('对不起，注册失败。');
         }
