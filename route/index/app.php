@@ -9,6 +9,10 @@ Route::get('/','index/index')->name('page.root');
 
 //在项目里注册多个路由规则后，系统会依次遍历注册过的满足请求类型的路由规则，
 //一旦匹配到正确的路由规则后则开始执行最终的调度方法，后续规则就不再检测。
+Route::post('signup/send_code', 'register/send_code')->name('signup.send_code');
 Route::post('signup/check_unique', 'register/check_unique')->name('signup.check_unique');
 Route::get('signup', 'register/create')->name('page.signup');
 Route::post('signup', 'register/save')->name('page.signup.save');
+
+// 验证填写的手机验证码是否正确
+Route::post('verify/valid_code', 'verify/valid_code')->name('verify.valid_code');
