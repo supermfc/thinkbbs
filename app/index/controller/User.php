@@ -65,9 +65,18 @@ class User extends Base
      * @param  int  $id
      * @return \think\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
+        $currentUser = UserModel::currentUser();
+        if (empty($currentUser)) {
+            Session::flash('info', '请先登录系统。');
+            return $this->redirect('[page.login]');
+        }
+
+        return $this->fetch('edit', [
+          'user' => $currentUser->refresh(),
+        ]);
     }
 
     /**
@@ -77,9 +86,28 @@ class User extends Base
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        //
+        $currentUser = UserModel::currentUser();
+        if (empty($currentUser)) {
+            Session::flash('info', '请先登录系统。');
+        } else if (!$this->request->isAjax() || !$this->request->isPut() ) {
+            Session::flash('danger', '对不起，你访问页面不存在。');
+            return $this->redirect(url('[user.read]', ['id' => $currentUser->id]));
+        }
+
+        $data = $this->request->post();
+        try {
+            $currentUser->updateProfile($data);
+        } catch (ValidateException $e) {
+            return $this->error('验证失败', null, ['errors' => $e->getData()]);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+
+        $message = '更新个人资料成功';
+        Session::set('success', $message);
+        return $this->success($message, url('[user.read]', ['id' => $currentUser->id]));
     }
 
     /**
