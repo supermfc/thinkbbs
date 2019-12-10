@@ -4,6 +4,7 @@ declare (strict_types = 1);
 namespace app\index\controller;
 
 use think\Request;
+use think\facade\Session;
 use app\common\model\User as UserModel;
 
 class User extends Base
@@ -54,7 +55,7 @@ class User extends Base
             Session::flash('danger', $message);
             return $this->redirect('/');
         }
-        //trace($user->id);
+        //dump($user);
         return $this->fetch('read', ['user' => $user]);
     }
 
