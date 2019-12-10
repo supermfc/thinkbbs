@@ -108,7 +108,7 @@ class Login extends Base
      * @param  int  $id
      * @return \think\Response
      */
-    public function delete($id)
+    public function delete()
     {
         if ($this->request->isPost()) {
             User::logout();
