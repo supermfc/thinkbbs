@@ -44,12 +44,16 @@ abstract class Base
                 }
             }
             View::assign('flash', $flash);
-            return;
+            
             // 顶部导航里的话题分类列表
-            $categories = CategoryModel::order('id', 'ASC')->select();
-            View::assign('categories', $categories);
+            //$categories = CategoryModel::order('id', 'ASC')->select();
+            //View::assign('categories', $categories);
         }
-        return;
+        
+        // 当前登录用户
+        View::assign('current_user', UserModel::currentUser());
+
+        return ;
         // 当前登录用户
         $current_user = UserModel::currentUser();
         if (!empty($current_user)) {
