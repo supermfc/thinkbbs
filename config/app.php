@@ -6,6 +6,9 @@
 use think\facade\Env;
 
 return [
+
+    //部署环境,如果没有设置，默认为生产环境，用于测试短信
+    'env'              => Env::get('app.env','production'),
     // 应用地址
     'app_host'         => Env::get('app.host', ''),
     // 应用的命名空间
