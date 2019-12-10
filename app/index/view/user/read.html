@@ -34,11 +34,7 @@
             <a class="nav-link bg-transparent <?php if ($is_replies) { echo('active'); }?>" href="{:url('user/read', ['id' => $user->id, 'tab' => 'replies'])}">Ta 的回复</a>
           </li>
         </ul>
-        {if ($is_replies)}
-        {include file="user/_replies", 'topic_paginate'='$replies_paginate' /}
-        {else /}
-        {include file="user/_topics", 'topic_paginate'='$topic_paginate' /}
-        {/if}
+        
       </div>
     </div>
 
