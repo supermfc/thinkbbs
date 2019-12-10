@@ -34,7 +34,7 @@ abstract class Base
             // 读取站点设置信息
             $this->site = ConfigModel::siteSetting();
             View::assign('site', $this->site);
-            return;
+            
             // 页面提示信息
             $flash = [];
             $flash_names = ['success', 'info', 'warning', 'danger'];
@@ -44,7 +44,7 @@ abstract class Base
                 }
             }
             View::assign('flash', $flash);
-
+            return;
             // 顶部导航里的话题分类列表
             $categories = CategoryModel::order('id', 'ASC')->select();
             View::assign('categories', $categories);
