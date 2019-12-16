@@ -61,6 +61,7 @@ class Upload extends Base
             'width'     => $width,
             'height'    =>  $height,
             'image'     =>  $image,
+            'error_msg' => '',
         ]);
     }
 

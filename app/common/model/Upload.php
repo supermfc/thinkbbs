@@ -21,11 +21,12 @@ class Upload
     {
         // 所有上传文件都保存在项目 public/storage/uploads 目录里
         $save_name = Filesystem::disk('public')->putFile('uploads', $file, 'md5');
-
+        $save_name = str_replace("\\","/" , $save_name);
+        //trace($save_name);
         return [
             'ext' => $file->extension(),
             // 文件实际存储在 public/storage 目录里
-            'save_path' => '/storage/'.$save_name,
+            'save_path' => '/thinkbbs/public/storage/'.$save_name,
             'sha1' => $file->hash("sha1"),
             'md5' => $file->hash("md5"),
             'size' => $file->getSize(),
