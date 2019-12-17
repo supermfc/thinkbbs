@@ -217,4 +217,18 @@ class User extends Model
 
         return true;
     }
+
+    /**
+     * 用户头像路径
+     * @Author   zhanghong(Laifuzi)
+     * @return   string
+     */
+    public function getAvatarPathAttr()
+    {
+        //如果用户没有上传头像，那么获取默认的头像
+        if (empty($this->avatar)) {
+            return '/thinkbbs/public/static/assets/index/images/default_avatar.png';
+        }
+        return $this->avatar;
+    }
 }
