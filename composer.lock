@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1baf02da6728f6f9b0498a93d20b17c8",
+    "content-hash": "ec41a7d32626aff3fde007598a25273c",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -954,6 +954,52 @@
             ],
             "description": "The ThinkPHP6 Helper Package",
             "time": "2019-09-30T02:36:48+00:00"
+        },
+        {
+            "name": "topthink/think-image",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-image.git",
+                "reference": "9ad32151d7ffc1b5a3087e20ea3bbdcff63405f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-image/zipball/9ad32151d7ffc1b5a3087e20ea3bbdcff63405f1",
+                "reference": "9ad32151d7ffc1b5a3087e20ea3bbdcff63405f1",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-gd": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*",
+                "topthink/framework": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\image\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "The ThinkPHP5 Image Package",
+            "time": "2016-07-13T05:48:22+00:00"
         },
         {
             "name": "topthink/think-migration",

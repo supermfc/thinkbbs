@@ -6,7 +6,7 @@ namespace app\common\model;
 use think\facade\Filesystem;
 use app\common\validate\Avatar as AvatarValidate;
 use app\common\exception\ValidateException;
-
+use think\Image;
 /**
  * @mixin think\Model
  */
@@ -19,7 +19,7 @@ class Upload
     * @param    File               $file         文件信息
     * @return   array
     */
-    static public function saveImage($file): array
+    static public function saveImage($file,$max_width=0): array
     {
         $validate = new AvatarValidate;
         if(!$validate->batch(true)->check(['file'=>$file])) {
@@ -31,11 +31,17 @@ class Upload
         // 所有上传文件都保存在项目 public/storage/uploads 目录里
         $save_name = Filesystem::disk('public')->putFile('uploads', $file, 'md5');
         $save_name = str_replace("\\","/" , $save_name);
+        $save_path = '/thinkbbs/public/storage/'.$save_name;
+        if ($max_width > 0) {
+            //对图片进行等比缩小裁剪，并直接覆盖原图
+            $image = Image::open('.'.$save_path);
+            $image->thumb($max_width,$max_width)->save('.'.$save_path);
+        }
         //trace($save_name);
         return [
             'ext' => $file->extension(),
             // 文件实际存储在 public/storage 目录里
-            'save_path' => '/thinkbbs/public/storage/'.$save_name,
+            'save_path' => $save_path,
             'sha1' => $file->hash("sha1"),
             'md5' => $file->hash("md5"),
             'size' => $file->getSize(),
