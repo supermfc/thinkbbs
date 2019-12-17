@@ -46,12 +46,22 @@ class Upload extends Base
 
         $width = $this->request->param('width',100);
         $height = $this->request->param('height',100);
+        //当前图片路径
+        $image = $this->request->param('image');
+        // 错误信息
+        $error_msg = '';
 
         if ($this->request->isPost()) {
             $file = $this->request->file('image');
-            $upload_info = UploadModel::saveImage($file);
+            try{
+                $upload_info = UploadModel::saveImage($file);
 
-            $image = $upload_info['save_path'];
+                $image = $upload_info['save_path'];   
+            } catch(ValidateException $e) {
+                $errors = $e->getData();
+                $error_msg = $errors['file'];
+            }
+            
         } else {
             $image = $this->request->param('image');
         }
@@ -61,7 +71,7 @@ class Upload extends Base
             'width'     => $width,
             'height'    =>  $height,
             'image'     =>  $image,
-            'error_msg' => '',
+            'error_msg' => $error_msg,
         ]);
     }
 
