@@ -15,7 +15,7 @@ use app\common\validate\Login as LoginValidate;
 class User extends Model
 {
     public const CURRENT_KEY = 'current_user';
-    
+    public $dateFormat = '\app\common\model\DateFormat';
 
 
     /**
