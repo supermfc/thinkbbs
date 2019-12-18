@@ -9,6 +9,11 @@ use app\common\model\User as UserModel;
 
 class User extends Base
 {
+    //除了read方法，其它的都应用中间件
+    protected $middleware = [
+        'auth' => ['except' => ['read']],
+    ];
+
     /**
      * 显示资源列表
      *
@@ -67,12 +72,15 @@ class User extends Base
      */
     public function edit()
     {
+        //使用中间件以后，下面语句可以删除
         //
+        
         $currentUser = UserModel::currentUser();
+        /*
         if (empty($currentUser)) {
             Session::flash('info', '请先登录系统。');
             return $this->redirect('[page.login]');
-        }
+        } */
 
         return $this->fetch('edit', [
           'user' => $currentUser->refresh(),
@@ -88,10 +96,14 @@ class User extends Base
      */
     public function update()
     {
+        //使用中间件后，以下语句可以删除
+        /*
         $currentUser = UserModel::currentUser();
         if (empty($currentUser)) {
             Session::flash('info', '请先登录系统。');
-        } else if (!$this->request->isAjax() || !$this->request->isPut() ) {
+        } else  */
+
+        if (!$this->request->isAjax() || !$this->request->isPut() ) {
             Session::flash('danger', '对不起，你访问页面不存在。');
             return $this->redirect(url('[user.read]', ['id' => $currentUser->id]));
         }
