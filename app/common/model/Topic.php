@@ -30,6 +30,19 @@ class Topic extends Model
      */
     public static function minePaginate(array $param = [], int $per_page = 20): Paginator
     {
-        return static::with(['user', 'category'])->paginate($per_page);
+       // return static::with(['user', 'category'])->paginate($per_page);
+       	$static = static::with(['user', 'category']);
+    	foreach ($param as $name => $value) {
+        	if (empty($value)) {
+            	continue;
+        	}
+        	switch ($name) {
+            	case 'category_id':
+                	$static = $static->where($name, intval($value));
+                	break;
+        	}
+    	}
+
+    	return $static->paginate($per_page);
     }
 }

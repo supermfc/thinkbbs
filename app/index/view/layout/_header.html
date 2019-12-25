@@ -12,8 +12,13 @@
       <!-- Left Side Of Navbar -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-    <a class="nav-link" href="{:url('[topic.index]')}">话题</a>
-  </li>
+          <a class="nav-link" href="{:url('[topic.index]')}">话题</a>
+        </li>
+        {volist name="categories" id="nav_category"}
+          <li class="nav-item <?php echo(navbar_class('category/read', ['id' => $nav_category->id])) ?>">
+            <a class="nav-link" href="{:url('[category.read]', ['id' => $nav_category->id])}">{$nav_category->name}</a>
+          </li>
+        {/volist}
       </ul>
 
       <!-- Right Side Of Navbar -->

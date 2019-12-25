@@ -46,8 +46,8 @@ abstract class Base
             View::assign('flash', $flash);
             
             // 顶部导航里的话题分类列表
-            //$categories = CategoryModel::order('id', 'ASC')->select();
-            //View::assign('categories', $categories);
+            $categories = CategoryModel::order('id', 'ASC')->select();
+            View::assign('categories', $categories);
         }
         
         // 当前登录用户
