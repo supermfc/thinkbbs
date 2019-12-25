@@ -179,4 +179,23 @@ class Topic extends Model
         }
         return true;
     }
+
+    /**
+     * 更新记录
+     * @Author   zhanghong(Laifuzi)
+     * @param    array              $data 表单提交数据
+     * @return   Topic
+     */
+    public function updateInfo(array $data): Topic
+    {
+        $validate = new Validate;
+        if (!$validate->batch(true)->check($data)) {
+            $e = new ValidateException('数据验证失败');
+            $e->setData($validate->getError());
+            throw $e;
+        }
+
+        $this->allowField(['title', 'category_id', 'body', 'excerpt'])->save($data);
+        return $this;
+    }
 }
