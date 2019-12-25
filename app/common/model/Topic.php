@@ -10,5 +10,13 @@ use think\Model;
  */
 class Topic extends Model
 {
-    //
+    public function user() 
+    {
+    	return $this->belongsTo('User');
+    }
+
+    public function category()
+    {
+    	return $this->belongsTo('Category');
+    }
 }

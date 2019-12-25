@@ -40,3 +40,5 @@ Route::get('user/<id>', 'user/read')->name('user.read');
 // 上传图片
 Route::get('upload', 'upload/create')->name('upload.create');
 Route::post('upload', 'upload/save')->name('upload.save');
+
+Route::get('topic', 'topic/index')->name('topic.index');
