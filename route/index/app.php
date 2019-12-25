@@ -38,6 +38,7 @@ Route::put('user/update', 'user/update')->name('user.update');
 Route::get('user/<id>', 'user/read')->name('user.read');
 
 // 上传图片
+Route::post('upload/simditor', 'upload/simditor')->name('upload.simditor');
 Route::get('upload', 'upload/create')->name('upload.create');
 Route::post('upload', 'upload/save')->name('upload.save');
 
@@ -48,3 +49,4 @@ Route::get('topic/create', 'topic/create')->name('topic.create');
 Route::post('topic', 'topic/save')->name('topic.save');
 Route::get('topic', 'topic/index')->name('topic.index');
 Route::get('category/<id>', 'category/read')->name('category.read');
+
