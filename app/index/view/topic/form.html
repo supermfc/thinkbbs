@@ -1,6 +1,6 @@
 {extend name="layout/main" /}
 {block name="styles"}
-{css href="/static/assets/plugins/simditor/css/simditor.css" /}
+{css href="/thinkbbs/public/static/assets/plugins/simditor/css/simditor.css" /}
 {/block}
 {block name="content"}
 <div class="container">
@@ -48,14 +48,15 @@
 </div>
 {/block}
 {block name="scripts"}
-{js href="/static/assets/plugins/jquery-validate/jquery.validate.min.js" /}
-{js href="/static/assets/plugins/jquery-validate/bootstrap.validate.js" /}
-{js href="/static/assets/plugins/simditor/js/module.js" /}
-{js href="/static/assets/plugins/simditor/js/hotkeys.js" /}
-{js href="/static/assets/plugins/simditor/js/uploader.js" /}
-{js href="/static/assets/plugins/simditor/js/simditor.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/jquery-validate/jquery.validate.min.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/jquery-validate/bootstrap.validate.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/simditor/js/module.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/simditor/js/hotkeys.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/simditor/js/uploader.js" /}
+{js href="/thinkbbs/public/static/assets/plugins/simditor/js/simditor.js" /}
 <script type="text/javascript">
   jQuery(function($){
+    /*
     var editor = new Simditor({
       textarea: $('#body-field'),
       upload: {
@@ -65,7 +66,8 @@
         leaveConfirm: '文件上传中，关闭此页面将取消上传。'
       },
       pasteImage: true,
-    });
+    });*/
+    console.log('test');
     validAndSubmitForm(
       "form#model-form",
       {
