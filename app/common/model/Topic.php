@@ -158,9 +158,10 @@ class Topic extends Model
         $current_user = User::currentUser();
         if (empty($current_user)) {
             return false;
-        } else if ($this->user_id != $current_user->id) {
+        //} else if ($this->user_id != $current_user->id) {
+        } else if (!$current_user->isAuthorOf($this)) {
             return false;
-        }
+     	   }
         return true;
     }
 
