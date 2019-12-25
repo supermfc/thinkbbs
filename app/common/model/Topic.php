@@ -147,4 +147,36 @@ class Topic extends Model
         $topic->excerpt = Str::substr($excerpt, 0, 200);
         return true;
     }
+
+    /**
+     * 是否可以编辑记录
+     * @Author   zhanghong(Laifuzi)
+     * @return   bool
+     */
+    public function canUpdate(): bool
+    {
+        $current_user = User::currentUser();
+        if (empty($current_user)) {
+            return false;
+        } else if ($this->user_id != $current_user->id) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 登录用户是否可以删除记录
+     * @Author   zhanghong(Laifuzi)
+     * @return   bool
+     */
+    public function canDelete(): bool
+    {
+        $current_user = User::currentUser();
+        if (empty($current_user)) {
+            return false;
+        } else if ($this->user_id != $current_user->id) {
+            return false;
+        }
+        return true;
+    }
 }

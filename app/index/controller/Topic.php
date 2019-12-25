@@ -12,7 +12,7 @@ use app\common\model\Topic as TopicModel;
 class Topic extends Base
 {
     protected $middleware = [
-        'auth' => ['except' => ['index']],
+        'auth' => ['except' => ['index','read']],
     ];
 
     /**
@@ -69,7 +69,8 @@ class Topic extends Base
 
         $message = '话题创建成功。';
         Session::flash('success', $message);
-        return $this->success($message, '[topic.index]');
+        //return $this->success($message, '[topic.index]');
+        return $this->success($message,url('[topic.read]',['id'=>$topic->id]));
     }
 
     /**
@@ -80,7 +81,29 @@ class Topic extends Base
      */
     public function read($id)
     {
-        //
+       
+        // 关联创建话题用户信息查询
+        $topic = TopicModel::with(['user' => function($query) {
+            $query->field('id, name, avatar');
+        }])->find($id);
+
+        
+
+        if (empty($topic)) {
+            return $this->redirect('[topic.index]');
+        }
+
+        // 浏览次数加 1
+        $topic->view_count += 1;
+        $topic->save();
+
+        // 用话题的摘要信息覆盖已有的SEO信息
+        $this->site['description'] = $topic->excerpt;
+
+        return $this->fetch('topic/read', [
+          'topic' => $topic,
+          'site' => $this->site,
+        ]);
     }
 
     /**
