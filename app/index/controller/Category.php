@@ -54,9 +54,12 @@ class Category extends Base
             return $this->redirect('/');
         }
 
+        $param = $this->request->only(['order'], 'get');
+        $param['category_id'] = $category->id;
+        /*
         $param = [
             'category_id' => $category->id,
-        ];
+        ]; */
 
         return $this->fetch('topic/index', [
             'category' => $category,

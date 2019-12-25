@@ -15,9 +15,10 @@ class Topic extends Base
      */
     public function index()
     {
+        $param = $this->request->only(['order'],'get');
         return $this->fetch('index', [
          //   'paginate' => TopicModel::paginate(20),
-         'paginate'     => TopicModel::minePaginate(),   //预载入分页查询
+         'paginate'     => TopicModel::minePaginate($param),   //预载入分页查询
         ]);
     }
 
