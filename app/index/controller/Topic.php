@@ -16,7 +16,8 @@ class Topic extends Base
     public function index()
     {
         return $this->fetch('index', [
-            'paginate' => TopicModel::paginate(20),
+         //   'paginate' => TopicModel::paginate(20),
+         'paginate'     => TopicModel::minePaginate(),   //预载入分页查询
         ]);
     }
 
