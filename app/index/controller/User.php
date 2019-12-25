@@ -6,6 +6,7 @@ namespace app\index\controller;
 use think\Request;
 use think\facade\Session;
 use app\common\model\User as UserModel;
+use app\common\model\Topic as TopicModel;
 
 class User extends Base
 {
@@ -61,7 +62,10 @@ class User extends Base
             return $this->redirect('/');
         }
         //dump($user);
-        return $this->fetch('read', ['user' => $user]);
+        return $this->fetch('read', [
+            'user' => $user,
+            'topic_paginate' => TopicModel::minePaginate(['user_id' =>$user->id],5),
+        ]);
     }
 
     /**
