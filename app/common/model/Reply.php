@@ -5,6 +5,7 @@ namespace app\common\model;
 
 use think\Model;
 use think\Paginator;
+use think\facade\Config;
 use app\common\validate\Reply as Validate;
 
 /**
@@ -80,6 +81,21 @@ class Reply extends Model
         return $reply;
     }
 
+    /**
+     * 评论新增后事件
+     * @Author   zhanghong(Laifuzi)
+     * @param    Reply              $reply 评论实例
+     * @return   bool
+     */
+    public static function onBeforeInsert(Reply $reply)
+    {
+        $cfg = Config::get('purifier');
+        $config = \HTMLPurifier_HTML5Config::create($cfg);
+        $purifier = new \HTMLPurifier($config);
+        $reply->content = $purifier->purify($reply->content);
+
+        return true;
+    }
     /**
      * 评论新增后事件
      * @Author   zhanghong(Laifuzi)
