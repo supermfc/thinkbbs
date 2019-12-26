@@ -24,6 +24,12 @@ class Topic extends Model
     	return $this->belongsTo('Category');
     }
 
+    // has many replies
+	public function replies()
+	{
+	    return $this->hasMany('Reply');
+	}
+
     /**
      * 范围查询-最近回回复排序
      * @Author   zhanghong(Laifuzi)
@@ -175,7 +181,8 @@ class Topic extends Model
         $current_user = User::currentUser();
         if (empty($current_user)) {
             return false;
-        } else if ($this->user_id != $current_user->id) {
+      //  } else if ($this->user_id != $current_user->id) {
+         } else if ($current_user->isAuthorOf($this)) {
             return false;
         }
         return true;

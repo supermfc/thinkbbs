@@ -5,6 +5,7 @@ namespace app\common\model;
 
 use think\Model;
 use think\Paginator;
+use app\common\validate\Reply as Validate;
 
 /**
  * @mixin think\Model
@@ -45,5 +46,77 @@ class Reply extends Model
             }
         }
         return $static->paginate($per_page);
+    }
+
+    /**
+     * 创建回复
+     * @Author   zhanghong(Laifuzi)
+     * @param    array              $data 表单提交数据
+     * @return   Reply
+     */
+    public static function createItem(array $data): Reply
+    {
+        $validate = new Validate;
+        if (!$validate->batch(true)->check($data)) {
+            $e = new ValidateException('数据验证失败');
+            $e->setData($validate->getError());
+            throw $e;
+        }
+
+        // 把当前登录用户 ID 赋值给 user_id
+        $data['user_id'] = 0;
+        $current_user = User::currentUser();
+        if (!empty($current_user)) {
+            $data['user_id'] = $current_user->id;
+        }
+
+        try {
+            $reply = new static;
+            $reply->allowField(['topic_id', 'user_id', 'content'])->save($data);
+        } catch (\Exception $e) {
+            throw new \Exception('创建回复失败');
+        }
+
+        return $reply;
+    }
+
+    /**
+     * 评论新增后事件
+     * @Author   zhanghong(Laifuzi)
+     * @param    Reply              $reply 评论实例
+     */
+    public static function onAfterInsert(Reply $reply)
+    {
+        $topic = $reply->topic;
+        if (!empty($topic)) {
+            $topic->reply_count = $topic->replies()->count();
+            $topic->last_reply_user_id = $reply->user_id;
+            $topic->save();
+        }
+    }
+
+    /**
+     * 是否可以删除回复
+     * @Author   zhanghong(Laifuzi)
+     * @return   bool
+     */
+    public function canDelete(): bool
+    {
+        $current_user = User::currentUser();
+        if (empty($current_user)) {
+            return false;
+        }
+
+        if ($current_user->isAuthorOf($this)) {
+            return true;
+        }
+
+        $topic = $this->topic;
+        if (empty($topic) || $current_user->isAuthorOf($topic)) {
+            // 回复所属话题为空时也可以被删除
+            return true;
+        }
+
+        return false;
     }
 }

@@ -54,3 +54,6 @@ Route::delete('topic/<id>', 'topic/delete')->name('topic.delete');
 Route::get('topic', 'topic/index')->name('topic.index');
 Route::get('category/<id>', 'category/read')->name('category.read');
 
+// 评论管理
+Route::post('reply', 'reply/save')->name('reply.save');
+
