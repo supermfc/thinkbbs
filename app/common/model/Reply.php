@@ -119,4 +119,18 @@ class Reply extends Model
 
         return false;
     }
+
+    /**
+     * 话题删除后事件
+     * @Author   zhanghong(Laifuzi)
+     * @param    Reply              $reply 评论实例
+     */
+    public static function onAfterDelete(Reply $reply)
+    {
+        $topic = $reply->topic;
+        if (!empty($topic)) {
+            $topic->reply_count = $topic->replies()->count();
+            $topic->save();
+        }
+    }
 }
